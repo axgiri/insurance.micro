@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  app:
+    image: openjdk:17-alpine
+    hostname: spring-app
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ./mvnw spring-boot:run
+    networks:
+      - my_network
+#make another database
+networks:
+  my_network:
+    driver: bridge
