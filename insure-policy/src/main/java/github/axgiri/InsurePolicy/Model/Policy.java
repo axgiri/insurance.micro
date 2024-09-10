@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "policies")
 public class Policy {
-//TODO: покупка страховки
+//TODO: покупка страховкии
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
