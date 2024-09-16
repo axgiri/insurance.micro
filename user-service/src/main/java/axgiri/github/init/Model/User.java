@@ -1,7 +1,17 @@
 package axgiri.github.init.Model;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import axgiri.github.init.Enum.RoleEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,7 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,10 +43,25 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User(String name, String email, Integer age, String password){
+    public User(String name, String email, Integer age, String password, RoleEnum roleEnum){
         this.name = name;
         this.email = email;
         this.age = age;
         this.password = password;
+        this.roleEnum = roleEnum;
+    }
+
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private RoleEnum roleEnum;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(roleEnum.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;        
     }
 }

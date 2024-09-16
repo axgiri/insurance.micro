@@ -1,5 +1,6 @@
 package axgiri.github.init.DTO;
 
+import axgiri.github.init.Enum.RoleEnum;
 import axgiri.github.init.Model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,11 +26,14 @@ public class UserDTO {
     @NotNull(message = "age is required")    
     private String password;
 
+    private RoleEnum role;
+
     public static UserDTO fromEntityToDTO(User user) {
-        return new UserDTO(user.getName(), user.getEmail(), user.getAge(), user.getPassword());
+        return new UserDTO(user.getName(), user.getEmail(), user.getAge(), user.getPassword(), user.getRoleEnum());
     }
 
     public User toEntity() {
-        return new User(name, email, age, password);
+        RoleEnum userRole = (role == null) ? RoleEnum.USER:role;
+        return new User(name, email, age, password, userRole);
     }
 }
