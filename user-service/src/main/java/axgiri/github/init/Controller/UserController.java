@@ -43,10 +43,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUser(@Valid @RequestBody UserDTO userDTO) {
         AuthResponse authResponse = service.createUser(userDTO);
         return ResponseEntity.ok(authResponse);
+        
     }
 
     @PostMapping("/login")

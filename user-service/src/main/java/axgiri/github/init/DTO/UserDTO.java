@@ -1,5 +1,7 @@
 package axgiri.github.init.DTO;
 
+import org.springframework.lang.Nullable;
+
 import axgiri.github.init.Enum.RoleEnum;
 import axgiri.github.init.Model.User;
 import jakarta.validation.constraints.Email;
@@ -26,6 +28,7 @@ public class UserDTO {
     @NotNull(message = "age is required")    
     private String password;
 
+    @Nullable
     private RoleEnum role;
 
     public static UserDTO fromEntityToDTO(User user) {

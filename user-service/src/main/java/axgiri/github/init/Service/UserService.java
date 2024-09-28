@@ -53,7 +53,7 @@ public class UserService {
     public AuthResponse createUser(UserDTO userDTO) {
         User user = userDTO.toEntity();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        logger.info("Creating new user with email: {}", user.getEmail());
+        logger.info("creating new user with email: {}", user.getEmail());
         repository.save(user);
         String token = tokenService.generateToken(user);
         return new AuthResponse(token, UserDTO.fromEntityToDTO(user));
