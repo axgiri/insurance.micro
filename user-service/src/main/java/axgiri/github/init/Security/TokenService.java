@@ -1,10 +1,12 @@
 package axgiri.github.init.Security;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
@@ -50,9 +51,10 @@ public class TokenService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(KEY);
+        byte[] keyBytes = KEY.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claim = extractAllClaims(token);
@@ -61,6 +63,10 @@ public class TokenService {
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
         logger.info("generating token for user: {}", userDetails.getUsername());
+        extraClaims.put("roles", userDetails.getAuthorities().stream()
+        .map(authority -> authority.getAuthority().replace("ROLE_", ""))
+        .collect(Collectors.toList()));
+
         return Jwts
          .builder()
          .setClaims(extraClaims)

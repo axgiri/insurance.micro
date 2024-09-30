@@ -1,13 +1,14 @@
 package github.axgiri.InsurePolicy.Repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import github.axgiri.InsurePolicy.Model.Policy;
 import github.axgiri.InsurePolicy.Model.Purchase;
 
 @Repository
-public interface PolicyRepository extends JpaRepository<Policy,Long>{
+public interface PurchaseRepository extends JpaRepository<Purchase, Long>{
 
-    void save(Purchase purchase);
+    Optional<Purchase> getPurchaseById(Long id);
 }

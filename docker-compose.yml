@@ -1,4 +1,17 @@
 services:
+  gateway:
+    image: openjdk:17-alpine
+    container_name: gateway
+    hostname: gateway
+    ports:
+      - "8080:8080" # Пробрасываем дефолтный порт
+    volumes:
+    - ./:/app
+    working_dir: /app/gateway
+    command: /app/gateway/mvnw spring-boot:run  # Используем полный путь
+    networks:
+      - microservices-network
+
   user-service:
     image: openjdk:17-alpine
     container_name: user-service

@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import github.axgiri.InsurePolicy.DTO.BuyRequest;
 import github.axgiri.InsurePolicy.DTO.PolicyDTO;
 import github.axgiri.InsurePolicy.Service.PolicyService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("api/policy")
+@RequestMapping("/api/policy")
 public class PolicyContoller {
     
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(PolicyService.class);
@@ -31,7 +33,7 @@ public class PolicyContoller {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<PolicyDTO>> getPolicies() {
         logger.info("request to fetch all policies");
         List<PolicyDTO> policies = service.getPolicies();
@@ -65,4 +67,13 @@ public class PolicyContoller {
         service.deletePolicy(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/buy")
+    public ResponseEntity<String> buyPolicy(HttpServletRequest request,@Valid @RequestBody BuyRequest buyRequest){
+        logger.info("request to buy policy");
+        service.buyPolicy(request, buyRequest);
+        return ResponseEntity.ok("you bought a new policy");
+    }
+
+    // @GetMapping("/myPolicies") TODO
 }
