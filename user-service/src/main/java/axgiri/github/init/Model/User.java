@@ -1,12 +1,5 @@
 package axgiri.github.init.Model;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import axgiri.github.init.Enum.RoleEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +36,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    public User(String name, String email, Integer age, String password, RoleEnum roleEnum){
+    public User(String name, String email, Integer age, String password, RoleEnum roleEnum) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -54,14 +47,4 @@ public class User implements UserDetails {
     @Column(nullable = true)
     @Enumerated(EnumType.STRING)
     private RoleEnum roleEnum;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(roleEnum.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;        
-    }
 }

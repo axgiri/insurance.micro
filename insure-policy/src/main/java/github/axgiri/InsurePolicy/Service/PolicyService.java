@@ -8,24 +8,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import github.axgiri.InsurePolicy.DTO.BuyRequest;
 import github.axgiri.InsurePolicy.DTO.PolicyDTO;
 import github.axgiri.InsurePolicy.Model.Policy;
-import github.axgiri.InsurePolicy.Model.Purchase;
 import github.axgiri.InsurePolicy.Repository.PolicyRepository;
-import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class PolicyService {
     private static final Logger logger = LoggerFactory.getLogger(PolicyService.class);
     
     private final PolicyRepository repository;
-    private final JwtService jwtService;
 
     @Autowired
-    public PolicyService (PolicyRepository repository, JwtService jwtService){
+    public PolicyService (PolicyRepository repository){
         this.repository = repository;
-        this.jwtService = jwtService;
     }
 
     public List<PolicyDTO> getPolicies(){
@@ -67,16 +62,5 @@ public class PolicyService {
             .orElseThrow(() -> new RuntimeException("policy with id" + id + "not found"));
         logger.info("deleting policy with id {}", id);
         repository.deleteById(id);
-    }
-
-    public String buyPolicy(HttpServletRequest request, BuyRequest buyRequest){
-        logger.info("byuing policy with request {}", buyRequest);
-        String email = jwtService.getEmailFromRequest(request);
-        logger.info("buying policy with request {} by user {}", buyRequest, email);
-        Purchase purchase = new Purchase();
-        purchase.setUserEmail(email);
-        purchase.setPolicy_id(buyRequest.getPolicy_id());
-        repository.save(purchase);
-        return "policy bought successfully for " + email;
     }
 }

@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import axgiri.github.init.DTO.LoginRequest;
 import axgiri.github.init.DTO.UserDTO;
 import axgiri.github.init.Model.User;
-import axgiri.github.init.Security.AuthResponse;
 import axgiri.github.init.Service.UserService;
 import jakarta.validation.Valid;
 
@@ -44,17 +42,11 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponse> createUser(@Valid @RequestBody UserDTO userDTO) {
-        AuthResponse authResponse = service.createUser(userDTO);
-        return ResponseEntity.ok(authResponse);
-        
+    public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO){
+        User user = service.createUser(userDTO);
+        return ResponseEntity.ok(user);
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
-        AuthResponse authResponse = service.authenticate(loginRequest);
-        return ResponseEntity.ok(authResponse);
-    }
+    //TODO: make login
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO){
@@ -66,11 +58,5 @@ public class UserController {
         public ResponseEntity<String> deleteUser(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.ok("user deleted");
-    }
-
-    @PostMapping("/{email}")
-    public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email){
-        UserDTO user = service.getUserByEmail(email);
-        return ResponseEntity.ok(user);
     }
 }
