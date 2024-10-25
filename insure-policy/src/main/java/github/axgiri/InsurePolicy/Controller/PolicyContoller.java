@@ -31,7 +31,7 @@ public class PolicyContoller {
         this.service = service;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity<List<PolicyDTO>> getPolicies() {
         logger.info("request to fetch all policies");
         List<PolicyDTO> policies = service.getPolicies();

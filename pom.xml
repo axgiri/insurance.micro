@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>insure-policy</module>
-        <module>user-service</module>
+        <module>authentication-service</module>
         <module>gateway</module>
     </modules>    
     <properties>

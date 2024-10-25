@@ -12,18 +12,18 @@ services:
     networks:
       - microservices-network
 
-  user-service:
+  authentication-service:
     image: openjdk:17-alpine
-    container_name: user-service
-    hostname: user-service
+    container_name: authentication-service
+    hostname: authentication-service
     ports:
       - "8081:8080" # Пробрасываем порт 8080 контейнера на 8081 хоста
     volumes:
     - ./:/app
-    working_dir: /app/user-service
-    command: /app/user-service/mvnw spring-boot:run  # Используем полный путь
+    working_dir: /app/authentication-service
+    command: /app/authentication-service/mvnw spring-boot:run  # Используем полный путь
     depends_on:
-      - user-db
+      - authentication-db
     networks:
       - microservices-network
 
@@ -39,21 +39,21 @@ services:
     command: /app/insure-policy/mvnw spring-boot:run  # Используем полный путь
     depends_on:
       - policy-db
-      - user-service
+      - authentication-service
     networks:
       - microservices-network
 
-  user-db:
+  authentication-db:
     image: postgres:13-alpine
-    container_name: user-db
+    container_name: authentication-db
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1
-      POSTGRES_DB: userdb
+      POSTGRES_DB: authenticationdb
     volumes:
-      - user_db_data:/var/lib/postgresql/data
+      - authentication_db_data:/var/lib/postgresql/data
     networks:
       - microservices-network
 
@@ -80,7 +80,7 @@ services:
     ports:
       - "7313:80"
     depends_on:
-      - user-db
+      - authentication-db
       - policy-db
     volumes:
       - pgadmin_data:/var/lib/pgadmin
@@ -92,6 +92,6 @@ networks:
     driver: bridge
 
 volumes:
-  user_db_data:
+  authentication_db_data:
   policy_db_data:
   pgadmin_data:
