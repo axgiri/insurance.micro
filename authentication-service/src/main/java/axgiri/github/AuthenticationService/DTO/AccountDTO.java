@@ -1,5 +1,6 @@
 package axgiri.github.AuthenticationService.DTO;
 
+import axgiri.github.AuthenticationService.Enum.RoleEnum;
 import axgiri.github.AuthenticationService.Model.Account;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -13,25 +14,26 @@ import lombok.NoArgsConstructor;
 public class AccountDTO {
     
     @NotNull(message = "role is required")
-    private String role;
+    private RoleEnum role;
     
     @Email
-    @NotNull(message = "login is required")
+    @NotNull(message = "email is required")
     private String email;
 
     @NotNull(message = "password is required")
     private String password;
 
-    public Account toEntity(){
+    public Account toEntity() {
         Account account = new Account();
+        account.setRole((role == null) ? RoleEnum.MODERATOR : role);
         account.setEmail(email);
         account.setPassword(password);
         return account;
     }
 
-    public static AccountDTO fromEntityToDTO(Account account){
+    public static AccountDTO fromEntityToDTO(Account account) {
         return new AccountDTO(
-            account.getRole() != null ? account.getRole().name() : null,
+            account.getRole(),
             account.getEmail(),
             account.getPassword()
         );

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,52 +34,58 @@ public class AccountController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/admin")
     public ResponseEntity<List<AccountDTO>> get(){
         logger.info("request to fetch all accounts");
         List<AccountDTO> accounts = service.get();
         return ResponseEntity.ok(accounts);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/admin/{id}")
     public ResponseEntity<AccountDTO> getById(@PathVariable Long id){
         logger.info("request to fetch account with id {}", id);
         AccountDTO accountDTO = service.getById(id);
         return ResponseEntity.ok(accountDTO);
     }
 
-    @GetMapping("/getByRole")
+    @GetMapping("/admin/getByRole")
     public ResponseEntity<List<AccountDTO>> getByRole(@RequestParam RoleEnum role){
         List<AccountDTO> accounts = service.getByRole(role);
         return ResponseEntity.ok(accounts);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<AccountDTO> update(@PathVariable Long id, @RequestBody @Valid AccountDTO accountDTO){
         logger.info("request to update account with id {}", id);
         AccountDTO updatedAccount = service.update(id, accountDTO);
         return ResponseEntity.ok(updatedAccount);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<AccountDTO> create(@RequestBody @Valid AccountDTO accountDTO){
-    logger.info("request to create new account");
-        AccountDTO createdAccount = service.create(accountDTO);
-        return ResponseEntity.ok(createdAccount);
+    @PostMapping("/public/register")
+    public ResponseEntity<AuthResponse> create(@RequestBody @Valid AccountDTO accountDTO){
+        logger.info("request to create new account");
+        AuthResponse authResponse = service.create(accountDTO);
+        return ResponseEntity.ok(authResponse);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/public/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
+        logger.info("request to authenticate user with email {}", loginRequest.getEmail());
         AuthResponse authResponse = service.authenticate(loginRequest);
         return ResponseEntity.ok(authResponse);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         logger.info("request to delete account with id {}", id);
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    // @GetMapping("/validate")
+    @GetMapping("/public/validate")
+    public ResponseEntity<String> validate(@RequestHeader("Authorization") String token){
+        logger.info("request to validate token: {}", token);
+        service.validateToken(token);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -45,21 +45,21 @@ public class PolicyContoller {
         return ResponseEntity.ok(policyDTO);
     }
 
-    @PostMapping
+    @PostMapping("/admin")
     public ResponseEntity<PolicyDTO> createPolicy(@RequestBody @Valid PolicyDTO policyDTO){
         logger.info("reques to create new policy");
         PolicyDTO createdPolicy = service.createPolicy(policyDTO);
         return ResponseEntity.ok(createdPolicy);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<PolicyDTO> updatePolicy(@PathVariable Long id, @RequestBody @Valid PolicyDTO policyDTO){
         logger.info("request to update policy with id {}", id);
         PolicyDTO updatedPolicy = service.updatePolicy(id, policyDTO);
         return ResponseEntity.ok(updatedPolicy);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> deletePolicy(@PathVariable Long id){
         logger.info("request to delete policy with id {}", id);
         service.deletePolicy(id);

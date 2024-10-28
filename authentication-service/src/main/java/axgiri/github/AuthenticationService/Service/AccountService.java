@@ -67,15 +67,17 @@ public class AccountService {
         return AccountDTO.fromEntityToDTO(account);
     }
 
-    public AccountDTO create(AccountDTO accountDTO){
+    public AuthResponse create(AccountDTO accountDTO){
         logger.info("creating account with data {}", accountDTO);
         Account account = accountDTO.toEntity();
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         repository.save(account);
-        return AccountDTO.fromEntityToDTO(account);
+        String token = tokenService.generateToken(account);
+        return new AuthResponse(token, AccountDTO.fromEntityToDTO(account));
     }
 
     public AuthResponse authenticate(LoginRequest request){
+        logger.info("authenticating user with email {}", request.getEmail());
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User with email: " + request.getEmail() + " not found"));
@@ -86,5 +88,11 @@ public class AccountService {
     public void delete (Long id){
         logger.info("deleting account with id {}", id);
         repository.deleteById(id);
+    }
+
+    public void validateToken(String token) {
+        if (!tokenService.isTokenValid(token, repository.findByEmail(tokenService.extractUsername(token)).orElseThrow())) {
+            throw new RuntimeException("token is invalid");
+        }
     }
 }
