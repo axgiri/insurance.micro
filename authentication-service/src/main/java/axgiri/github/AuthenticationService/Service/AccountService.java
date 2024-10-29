@@ -48,7 +48,6 @@ public class AccountService {
         logger.info("fetching policy with id: {}", id);
         Account accounts = repository.findById(id)
         .orElseThrow(() -> new RuntimeException("user with id: " + id + " not found"));
-            logger.error("Policy with ID: {} not found", id);
         return AccountDTO.fromEntityToDTO(accounts);
     }
 

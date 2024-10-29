@@ -32,7 +32,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<Object> {
 
             return webClientBuilder.build()
                     .get()
-                    .uri("http://host.docker.internal:8081/api/account/validate")
+                    .uri("http://host.docker.internal:8081/api/account/public/validate")
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                     .retrieve()
                     .bodyToMono(Void.class)

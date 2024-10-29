@@ -31,14 +31,14 @@ public class PolicyContoller {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/public")
     public ResponseEntity<List<PolicyDTO>> getPolicies() {
         logger.info("request to fetch all policies");
         List<PolicyDTO> policies = service.getPolicies();
         return ResponseEntity.ok(policies);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/public/{id}")
     public ResponseEntity<PolicyDTO> getPolicyById(@PathVariable Long id){
         logger.info("request to fetch policy with id {}", id);
         PolicyDTO policyDTO = service.getPolicy(id);

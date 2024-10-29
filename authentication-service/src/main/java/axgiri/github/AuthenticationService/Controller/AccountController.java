@@ -85,6 +85,7 @@ public class AccountController {
     @GetMapping("/public/validate")
     public ResponseEntity<String> validate(@RequestHeader("Authorization") String token){
         logger.info("request to validate token: {}", token);
+        token = token.substring(7);
         service.validateToken(token);
         return ResponseEntity.ok().build();
     }
