@@ -30,9 +30,17 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        final String requestPath = request.getServletPath();
         final String header = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
+
+        if (requestPath.equals("/api/account/public/login") 
+                || requestPath.equals("/api/account/public/register")
+                || requestPath.equals("/api/account/public/register")){
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (header == null || !header.startsWith("Bearer ")) {
             logger.info("JWT token is missing or doesn't start with Bearer");
