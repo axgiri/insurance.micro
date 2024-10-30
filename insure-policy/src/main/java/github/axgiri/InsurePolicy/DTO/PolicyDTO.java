@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PolicyDTO {
     
+    private Long id;
+
     @NotNull(message = "Insurance package is required")
     private PackageEnum insurancePackage;
 
@@ -24,6 +26,7 @@ public class PolicyDTO {
 
     public Policy toEntity(){
         Policy policy = new Policy();
+        policy.setId(this.id);
         policy.setInsuranceType(this.insuranceType);
         policy.setInsuransePackage(insurancePackage);
         policy.setPrice(this.price);
@@ -32,6 +35,7 @@ public class PolicyDTO {
 
     public static PolicyDTO fromEntityToDTO(Policy policy){
         return new PolicyDTO(
+            policy.getId(),
             policy.getInsuransePackage(), 
             policy.getInsuranceType(), 
             policy.getPrice()

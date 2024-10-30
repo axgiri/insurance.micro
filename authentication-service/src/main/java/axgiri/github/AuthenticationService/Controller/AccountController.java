@@ -87,6 +87,6 @@ public class AccountController {
         logger.info("request to validate token: {}", token);
         token = token.substring(7);
         service.validateToken(token);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("validation successful");
     }
 }

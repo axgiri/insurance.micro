@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AccountDTO {
     
+    private Long id;
+
     @NotNull(message = "role is required")
     private RoleEnum role;
     
@@ -25,6 +27,7 @@ public class AccountDTO {
 
     public Account toEntity() {
         Account account = new Account();
+        account.setId(id);
         account.setRole((role == null) ? RoleEnum.MODERATOR : role);
         account.setEmail(email);
         account.setPassword(password);
@@ -33,6 +36,7 @@ public class AccountDTO {
 
     public static AccountDTO fromEntityToDTO(Account account) {
         return new AccountDTO(
+            account.getId(),
             account.getRole(),
             account.getEmail(),
             account.getPassword()

@@ -35,9 +35,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
-        if (requestPath.equals("/api/account/public/login") 
-                || requestPath.equals("/api/account/public/register")
-                || requestPath.equals("/api/account/public/register")){
+        if (requestPath.startsWith("/api/account/public")) {
             filterChain.doFilter(request, response);
             return;
         }
