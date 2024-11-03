@@ -62,7 +62,7 @@ public class PolicyContoller {
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> deletePolicy(@PathVariable Long id){
         logger.info("request to delete policy with id {}", id);
-        service.deletePolicy(id);
+        service.deletePolicy(id);   
         return ResponseEntity.noContent().build();
     }
 }

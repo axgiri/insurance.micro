@@ -4,11 +4,11 @@ services:
     container_name: gateway
     hostname: gateway
     ports:
-      - "8080:8080" # Пробрасываем дефолтный порт
+      - "8080:8080"
     volumes:
     - ./:/app
     working_dir: /app/gateway
-    command: /app/gateway/mvnw spring-boot:run  # Используем полный путь
+    command: /app/gateway/mvnw spring-boot:run
     networks:
       - microservices-network
 
@@ -17,11 +17,11 @@ services:
     container_name: authentication-service
     hostname: authentication-service
     ports:
-      - "8081:8080" # Пробрасываем порт 8080 контейнера на 8081 хоста
+      - "8081:8080"
     volumes:
     - ./:/app
     working_dir: /app/authentication-service
-    command: /app/authentication-service/mvnw spring-boot:run  # Используем полный путь
+    command: /app/authentication-service/mvnw spring-boot:run
     depends_on:
       - authentication-db
     networks:
@@ -32,13 +32,29 @@ services:
     container_name: policy-service
     hostname: policy-service
     ports:
-      - "8082:8080" # Пробрасываем порт 8080 контейнера на 8082 хоста
+      - "8082:8080"
     volumes:
     - ./:/app
     working_dir: /app/insure-policy
-    command: /app/insure-policy/mvnw spring-boot:run  # Используем полный путь
+    command: /app/insure-policy/mvnw spring-boot:run
     depends_on:
       - policy-db
+      - authentication-service
+    networks:
+      - microservices-network
+
+  purchase-service:
+    image: openjdk:17-alpine
+    container_name: purchase-service
+    hostname: purchase-service
+    ports:
+      - "8083:8080"
+    volumes:
+    - ./:/app
+    working_dir: /app/purchase-service
+    command: /app/purchase-service/mvnw spring-boot:run
+    depends_on:
+      - purchase-db
       - authentication-service
     networks:
       - microservices-network
@@ -71,6 +87,20 @@ services:
     networks:
       - microservices-network
 
+  purchase-db:
+    image: postgres:13-alpine
+    container_name: purchase-db
+    ports:
+      - "5430:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: purchasedb
+    volumes:
+      - purchase_db_data:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -82,6 +112,7 @@ services:
     depends_on:
       - authentication-db
       - policy-db
+      - purchase-db
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
@@ -94,4 +125,5 @@ networks:
 volumes:
   authentication_db_data:
   policy_db_data:
+  purchase_db_data:
   pgadmin_data:

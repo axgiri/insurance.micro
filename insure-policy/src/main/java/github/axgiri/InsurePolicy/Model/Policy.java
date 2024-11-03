@@ -1,5 +1,7 @@
 package github.axgiri.InsurePolicy.Model;
 
+import github.axgiri.InsurePolicy.Enum.PackageEnum;
+import github.axgiri.InsurePolicy.Enum.TypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,11 +26,11 @@ public class Policy {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private github.axgiri.InsurePolicy.Enum.TypeEnum insuranceType;
+    private TypeEnum insuranceType;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private github.axgiri.InsurePolicy.Enum.PackageEnum insuransePackage;
+    private PackageEnum insuransePackage;
 
     @Column(nullable = false)
     private Float price;
