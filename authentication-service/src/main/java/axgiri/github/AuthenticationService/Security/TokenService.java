@@ -11,9 +11,12 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+// import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+// import axgiri.github.AuthenticationService.Model.Account;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -64,15 +67,15 @@ public class TokenService {
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
         logger.info("generating token for user: {}", userDetails.getUsername());
         extraClaims.put("roles", userDetails.getAuthorities().stream()
-        .map(authority -> authority.getAuthority().replace("ROLE_", ""))
-        .collect(Collectors.toList()));
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList()));
 
         return Jwts
          .builder()
          .setClaims(extraClaims)
          .setSubject(userDetails.getUsername())
          .setIssuedAt(new Date(System.currentTimeMillis()))
-         .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+         .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 12 * 24))
          .signWith(getSignInKey(), SignatureAlgorithm.HS256)
          .compact();
     }

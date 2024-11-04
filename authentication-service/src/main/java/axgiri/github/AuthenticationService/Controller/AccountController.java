@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class AccountController {
         this.service = service;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
     public ResponseEntity<List<AccountDTO>> get(){
         logger.info("request to fetch all accounts");
@@ -41,6 +43,7 @@ public class AccountController {
         return ResponseEntity.ok(accounts);
     }
 
+    @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
     @GetMapping("/admin/{id}")
     public ResponseEntity<AccountDTO> getById(@PathVariable Long id){
         logger.info("request to fetch account with id {}", id);
@@ -48,12 +51,14 @@ public class AccountController {
         return ResponseEntity.ok(accountDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/getByRole")
     public ResponseEntity<List<AccountDTO>> getByRole(@RequestParam RoleEnum role){
         List<AccountDTO> accounts = service.getByRole(role);
         return ResponseEntity.ok(accounts);
     }
 
+    @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
     @PutMapping("/admin/{id}")
     public ResponseEntity<AccountDTO> update(@PathVariable Long id, @RequestBody @Valid AccountDTO accountDTO){
         logger.info("request to update account with id {}", id);
@@ -75,6 +80,7 @@ public class AccountController {
         return ResponseEntity.ok(authResponse);
     }
 
+    @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         logger.info("request to delete account with id {}", id);
