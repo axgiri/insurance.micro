@@ -9,14 +9,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import github.axgiri.PurchaseService.DTO.PurchaseDTO;
 import github.axgiri.PurchaseService.Enum.StatusEnum;
 import github.axgiri.PurchaseService.Service.PurchaseService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/purchase")
@@ -59,11 +61,11 @@ public class PurchaseController {
         return ResponseEntity.ok(purchase);
     }
 
-    @PostMapping("/public/create")
-    public ResponseEntity<PurchaseDTO> create(@RequestBody PurchaseDTO purchaseDTO){
-        logger.info("reques to new purchase");
-        PurchaseDTO purchase = service.create(purchaseDTO);
-        return ResponseEntity.ok(purchase);
+    @PostMapping(value = "/public/create", consumes = {"multipart/form-data"})
+    public ResponseEntity<PurchaseDTO> create(@RequestPart("purchase") @Valid PurchaseDTO purchaseDTO, @RequestPart("pdf") MultipartFile pdfFile) {
+        logger.info("Request to create new purchase with PDF");
+        PurchaseDTO createdPurchase = service.create(purchaseDTO, pdfFile);
+        return ResponseEntity.ok(createdPurchase);
     }
 
     @DeleteMapping("/public/close")

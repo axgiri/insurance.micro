@@ -59,6 +59,21 @@ services:
     networks:
       - microservices-network
 
+  document-service:
+    image: openjdk:17-alpine
+    container_name: document-service
+    hostname: document-service
+    ports:
+      - "8084:8080"
+    volumes:
+    - ./:/app
+    working_dir: /app/document-service
+    command: /app/document-service/mvnw spring-boot:run
+    depends_on:
+      - authentication-db
+    networks:
+      - microservices-network
+
   authentication-db:
     image: postgres:13-alpine
     container_name: authentication-db

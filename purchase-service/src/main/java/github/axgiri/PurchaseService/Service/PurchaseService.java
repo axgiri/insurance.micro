@@ -1,5 +1,6 @@
 package github.axgiri.PurchaseService.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import github.axgiri.PurchaseService.DTO.PurchaseDTO;
 import github.axgiri.PurchaseService.Enum.StatusEnum;
@@ -56,15 +58,17 @@ public class PurchaseService {
         return PurchaseDTO.fromEntityToDTO(purchase);
     }
 
-    //TODO: getExamplePDF
-
-    //TODO getPurchasePDF
-    
-    public PurchaseDTO create(PurchaseDTO purchaseDTO){
-        logger.info("creating purchase");
-        Purchase purchase = purchaseDTO.toEntity();
-        repository.save(purchase);
-        return PurchaseDTO.fromEntityToDTO(purchase);
+    public PurchaseDTO create(PurchaseDTO purchaseDTO, MultipartFile pdfFile) {
+        try {
+            byte[] pdfData = pdfFile.getBytes();
+            Purchase purchase = purchaseDTO.toEntity();
+            purchase.setPdfDocument(pdfData);
+            repository.save(purchase);
+            return PurchaseDTO.fromEntityToDTO(purchase);
+        } catch (IOException e) {
+            logger.error("error reading PDF file", e);
+            throw new RuntimeException("error reading PDF file");
+        }
     }
 
     public String close(UUID uuid) {

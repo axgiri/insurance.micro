@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/policy")
 public class PolicyContoller {
     
-    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(PolicyService.class);
+    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(PolicyContoller.class);
 
     private final PolicyService service;
 
