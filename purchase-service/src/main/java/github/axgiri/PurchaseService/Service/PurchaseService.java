@@ -26,7 +26,7 @@ public class PurchaseService {
         this.repository = repository;
     }
 
-    public List<PurchaseDTO> get(){ //TODO: route for admin
+    public List<PurchaseDTO> get(){
         logger.info("fetching all purchases");
         List<Purchase> purchases = repository.findAll();
         return purchases.stream()
@@ -34,7 +34,7 @@ public class PurchaseService {
             .collect(Collectors.toList());
     }
 
-    public List<PurchaseDTO> getByStatus(StatusEnum status){ //TODO: route for admin
+    public List<PurchaseDTO> getByStatus(StatusEnum status){
         logger.info("fetching all purchases with status: {}", status);
         List<Purchase> purchase = repository.findByStatus(status);
         return purchase.stream()
@@ -42,7 +42,7 @@ public class PurchaseService {
             .collect(Collectors.toList());
     }
 
-    public PurchaseDTO getByUuid(UUID uuid){ //TODO: route for admin
+    public PurchaseDTO getByUuid(UUID uuid){
         logger.info("fetching purchase with uuid: {}", uuid);
         Purchase purchase = repository.findByUuid(uuid)
                 .orElseThrow(() -> new RuntimeException("purchase with uuid " + uuid + " not found"));
@@ -55,6 +55,8 @@ public class PurchaseService {
                 .orElseThrow(() -> new RuntimeException("purchase with gov id " + govId + " not found"));
         return PurchaseDTO.fromEntityToDTO(purchase);
     }
+
+    //TODO: getExamplePDF
 
     //TODO getPurchasePDF
     
