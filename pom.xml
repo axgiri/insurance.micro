@@ -12,6 +12,7 @@
         <module>authentication-service</module>
         <module>gateway</module>
         <module>purchase-service</module>
+        <module>document-service</module>
     </modules>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

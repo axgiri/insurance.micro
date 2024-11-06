@@ -1,5 +1,6 @@
 package github.axgiri.PurchaseService.Model;
 
+import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -48,6 +50,10 @@ public class Purchase {
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Lob
+    @Column(nullable = false)
+    private Blob pdfDocument;
 
     @PrePersist
     private void setDefaultStatus() {
