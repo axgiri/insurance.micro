@@ -1,5 +1,6 @@
 package github.axgiri.PurchaseService.Model;
 
+import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -52,7 +53,7 @@ public class Purchase {
 
     @Lob
     @Column(nullable = false)
-    private byte[] pdfDocument;
+    private Blob pdfDocument;
 
     @PrePersist
     private void setDefaultStatus() {
