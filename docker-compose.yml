@@ -56,6 +56,7 @@ services:
     depends_on:
       - purchase-db
       - authentication-service
+      - purchase-redis
     networks:
       - microservices-network
 
@@ -130,6 +131,17 @@ services:
       - purchase-db
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - microservices-network
+  
+  purchase-redis:
+    image: redis:6.2.6-alpine
+    container_name: purchase-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - ./purchase-service/src/main/resources/redis-data:/data
     networks:
       - microservices-network
 
