@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/account")
 public class AccountController {
 
-    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(AccountService.class);
+    private static final Logger logger = org.slf4j.LoggerFactory.getLogger(AccountController.class);
 
     private final AccountService service; 
 

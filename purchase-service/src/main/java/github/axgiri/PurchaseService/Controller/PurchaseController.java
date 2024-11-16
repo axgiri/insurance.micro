@@ -3,7 +3,6 @@ package github.axgiri.PurchaseService.Controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -89,7 +88,7 @@ public class PurchaseController {
             headers.setContentDispositionFormData("inline", "document_" + uuid + ".pdf");
             headers.setContentLength(pdfData.length);
             return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
-        } catch (ResourceNotFoundException ex) {
+        } catch (IllegalArgumentException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
