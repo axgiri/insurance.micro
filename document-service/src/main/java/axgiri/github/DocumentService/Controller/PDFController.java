@@ -39,14 +39,13 @@ public class PDFController {
     }
 
     @GetMapping("/pdf")
-    public ResponseEntity<byte[]> getPDF(@RequestParam Long gov_id, @RequestParam Long policy_id)
-            throws DocumentException {
+    public ResponseEntity<byte[]> getPDF(@RequestParam Long govId, @RequestParam Long policyId) throws DocumentException {
         try {
             PurchaseRequest purchaseRequest = new PurchaseRequest();
-            purchaseRequest.setGov_id(gov_id);
-            purchaseRequest.setPolicy_id(policy_id);
+            purchaseRequest.setGovId(govId);
+            purchaseRequest.setPolicyId(policyId);
 
-            PolicyResponse policy = policyService.getPolicyDetails(policy_id);
+            PolicyResponse policy = policyService.getPolicyDetails(policyId);
             if (policy == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
@@ -58,7 +57,7 @@ public class PDFController {
             String fileName = fileNameService.generateFileName(
                     policy.getInsuranceType(),
                     policy.getInsurancePackage(),
-                    gov_id,
+                    govId,
                     today,
                     nextYear);
 
