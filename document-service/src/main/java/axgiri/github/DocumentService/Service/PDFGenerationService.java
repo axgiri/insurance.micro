@@ -32,7 +32,7 @@ public class PDFGenerationService {
 
         String insuranceType = policy.getInsuranceType().toLowerCase();
         String insurancePackage = policy.getInsurancePackage().toLowerCase();
-        Long govId = purchaseRequest.getGov_id();
+        Long govId = purchaseRequest.getGovId();
         LocalDate today = LocalDate.now();
         LocalDate nextYear = today.plusYears(1);
 

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,10 +88,10 @@ public class PurchaseService {
     }
 
     @Transactional(readOnly = true)
-    public byte[] getPdfByUuid(UUID uuid) throws ResourceNotFoundException, SQLException {
+    public byte[] getPdfByUuid(UUID uuid) throws SQLException {
         Blob pdfBlob = repository.findByUuid(uuid)
                 .map(Purchase::getPdfDocument)
-                .orElseThrow(() -> new ResourceNotFoundException("purchase with UUID " + uuid + " not found."));
+                .orElseThrow(() -> new RuntimeException("purchase with uuid " + uuid + " not found"));
         try (InputStream inputStream = pdfBlob.getBinaryStream()) {
             return inputStream.readAllBytes();
         } catch (Exception e) {

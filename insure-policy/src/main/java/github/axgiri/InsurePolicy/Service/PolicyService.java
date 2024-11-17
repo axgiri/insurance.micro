@@ -37,7 +37,7 @@ public class PolicyService {
             .orElseThrow(() -> new RuntimeException("user with id: " + id + " not found"));
             logger.error("Policy with ID: {} not found", id);
         return PolicyDTO.fromEntityToDTO(policy);
-    } 
+    }
 
     public PolicyDTO createPolicy(PolicyDTO policyDTO){
         logger.info("creating policy with type: {}, and package {}",
