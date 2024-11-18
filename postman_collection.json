@@ -1,0 +1,557 @@
+{
+	"info": {
+		"_postman_id": "3b80e5ea-2aca-442d-ba9b-601773991a27",
+		"name": "insurance.micro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36832826"
+	},
+	"item": [
+		{
+			"name": "policy service",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImZvbzFAZm9vMS5mb28xIiwiaWF0IjoxNzMxNzg4OTI5LCJleHAiOjE3MzE4MDYyMDl9.RV6Ng0JRplF7d-qAwPe7aybgqeiUSoq7E8Ze96VlI5Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"insurancePackage\":\"PREMIUM\",\n    \"insuranceType\":\"AUTO\",\n    \"price\":78243.14\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/policy/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"policy",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all policies",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/policy/public",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"policy",
+								"public"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/policy/public/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"policy",
+								"public",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth service",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"foo1@foo1.foo1\",\n  \"password\": \"password\",\n  \"role\":\"ADMIN\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/account/public/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"public",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"foo1@foo1.foo1\",\n  \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/account/public/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"public",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJNT0RFUkFUT1IiXSwic3ViIjoiMTIzMTIzMTIzQDEyMzEzMTIzLjEyMzEyMzEyMyIsImlhdCI6MTczMDcyMTQyNiwiZXhwIjoxNzMwNzIyODY2fQ.aq1UuxA6STNzRKe7Z4wRxoeg3M04Y6HgP_TGLazJtHc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/account/admin/52",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"admin",
+								"52"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate public",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImZvbzFAZm9vMS5mb28xIiwiaWF0IjoxNzMxMTU0NzcwLCJleHAiOjE3MzExNzIwNTB9.CP_HD7uydDxozXVRfQmnSTXIgijveN8q4MBdh8LOaZY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/account/public/validate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"public",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "purchase service",
+			"item": [
+				{
+					"name": "get Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImZvbzFAZm9vMS5mb28xIiwiaWF0IjoxNzMxMTcyMjY4LCJleHAiOjE3MzExODk1NDh9.aYy5skMcJG9gjoKwLKzelPIUOdlgaE9zcia0iwHAQSQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/purchase/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByStatus Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiJdLCJzdWIiOiJhZWhAYWVoLmFlaCIsImlhdCI6MTczMDYzNzc0NCwiZXhwIjoxNzMwNjM5MTg0fQ.AJBNAiXTBg3qODb0JcjTuUVGlL7kZsjphdzYnd6OrRY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/purchase/admin/getByStatus?status=INACTIVE",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase",
+								"admin",
+								"getByStatus"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "INACTIVE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByUuid admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sInN1YiI6ImZvbzFAZm9vMS5mb28xIiwiaWF0IjoxNzMxNDAwMzI5LCJleHAiOjE3MzE0MTc2MDl9.KFPHabdjn-AzLQjxDxY4wh6wJMO4-XNumqk8anXxO7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/purchase/admin/getByUuid?uuid=e63f392b-ad70-4a3a-b921-c2d9a657319d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase",
+								"admin",
+								"getByUuid"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "e63f392b-ad70-4a3a-b921-c2d9a657319d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by govId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/purchase/public/getByGovId?govId=0034567890",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase",
+								"public",
+								"getByGovId"
+							],
+							"query": [
+								{
+									"key": "govId",
+									"value": "0034567890"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "pdf",
+									"contentType": "application/pdf",
+									"type": "file",
+									"src": "/home/axgiri/Downloads/CV Aidyn Arystanov.pdf"
+								},
+								{
+									"key": "purchase",
+									"value": "{\"policyId\": 2,\"govId\": \"2234567416\"}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/purchase/public/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase",
+								"public",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "close",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/purchase/public/close?uuid=9ba2ea5b-8cd0-4140-86c0-87c41fb4353d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase",
+								"public",
+								"close"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "9ba2ea5b-8cd0-4140-86c0-87c41fb4353d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pdf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/purchase/public/document/27660cee-593f-4a97-bac6-7fbc7553f934",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase",
+								"public",
+								"document",
+								"27660cee-593f-4a97-bac6-7fbc7553f934"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "document service",
+			"item": [
+				{
+					"name": "get document",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": ""
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/document/pdf?govId=2234567414&policyId=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"document",
+								"pdf"
+							],
+							"query": [
+								{
+									"key": "govId",
+									"value": "2234567414"
+								},
+								{
+									"key": "policyId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.request.headers.add({key: \"Accept\", value: \"application/json\"});",
+					"pm.request.headers.add({key: \"Content-Type\", value: \"application/json\"});",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
